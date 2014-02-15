@@ -40,7 +40,7 @@
         <script type="text/javascript">
             $(document).ready(function() {
                 var slider1 = $('#slider-1').sahiliItemSlider({
-                    startSlide: function(index) {
+                    startSlide: function(index, element) {
                         $.ajax({
                           type: "GET",
                           url: "data/get.php",
@@ -52,10 +52,12 @@
                                 slider2.addItem(value);
                             });
                         });
+                        
+                        console.log(element.data('id'));
                     }
                 });
                 var slider2 = $('#slider-2').sahiliItemSlider({
-                    startSlide: function(index) {
+                    startSlide: function(index, element) {
                         $.ajax({
                           type: "GET",
                           url: "data/get.php",
@@ -71,11 +73,12 @@
                 });
                 var slider3 = $('#slider-3').sahiliItemSlider();
                 
-                slider1.addItem('test1');
+                slider1.addItem('test1', {'id': '10'});
                 slider1.addItem('test2');
                 slider1.addItem('test3');
                 slider1.addItem('test4');
             });
+            
         </script>
     </body>
 </html>
