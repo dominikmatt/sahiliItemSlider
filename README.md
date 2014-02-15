@@ -15,13 +15,20 @@ jQuery SahiliItemSlider
 
 4. HTML-Container:
    `<div class="sahiliItemSlider clearfix" id="slider-1">`
+
         `<div class="prev">prev</div>`
+
         `<div class="viewport">`
+
             `<ul class="clearfix">`
-                `
+
+                
             `</ul>`
+
         `</div>`
+
         `<div class="next">next</div>`
+
     `</div>`.
 
 5. initalize the slider `var slider1 = $('#slider-1').sahiliItemSlider();`
@@ -38,5 +45,7 @@ jQuery SahiliItemSlider
   
 ## Functions
   `slider1.addItem('test1');` : add a item to the slider 1
+  
   `slider1.deleteSingleItems(2);` : remove the item with the index 3
+  
   `slider1.delteAllItems();` : remove all items from the slider
