@@ -14,22 +14,22 @@ jQuery SahiliItemSlider
    `<script type="text/javascript" src="../js/sahiliItemSlider.js"></script>`
 
 4. HTML-Container:
-   `<div class="sahiliItemSlider clearfix" id="slider-1">`
+   <div class="sahiliItemSlider clearfix" id="slider-1">
 
-        `<div class="prev">prev</div>`
+        <div class="prev">prev</div>
 
-        `<div class="viewport">`
+        <div class="viewport">
 
-            `<ul class="clearfix">`
+            <ul class="clearfix">
 
                 
-            `</ul>`
+            </ul>
 
-        `</div>`
+        </div>`
 
-        `<div class="next">next</div>`
+        <div class="next">next</div>
 
-    `</div>`.
+    </div>.
 
 5. initalize the slider `var slider1 = $('#slider-1').sahiliItemSlider();`
 
