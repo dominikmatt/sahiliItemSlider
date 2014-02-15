@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>jQuery Item Slider</title>
+        <link rel="stylesheet" type="text/css" href="../css/css/sahiliItemSlider.css" />
+    </head>
+    <body>
+        <div class="sahiliItemSlider clearfix" id="slider-1">
+            <div class="prev">prev</div>
+            <div class="viewport">
+                <ul class="clearfix">
+                    
+                </ul>
+            </div>
+            <div class="next">next</div>
+        </div>
+        
+        <div class="sahiliItemSlider clearfix" id="slider-2">
+            <div class="prev">prev</div>
+            <div class="viewport">
+                <ul class="clearfix">
+                    
+                </ul>
+            </div>
+            <div class="next">next</div>
+        </div>
+        
+        <div class="sahiliItemSlider clearfix" id="slider-3">
+            <div class="prev">prev</div>
+            <div class="viewport">
+                <ul class="clearfix">
+                    
+                </ul>
+            </div>
+            <div class="next">next</div>
+        </div>
+        
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script type="text/javascript" src="../js/sahiliItemSlider.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                var slider1 = $('#slider-1').sahiliItemSlider({
+                    startSlide: function(index) {
+                        $.ajax({
+                          type: "GET",
+                          url: "data/get.php",
+                          data: {index: index}
+                        }).done(function(response) {
+                            slider2.deleteAllItems();
+                            data = $.parseJSON(response);
+                            $.each(data, function(i, value) {
+                                slider2.addItem(value);
+                            });
+                        });
+                    }
+                });
+                var slider2 = $('#slider-2').sahiliItemSlider({
+                    startSlide: function(index) {
+                        $.ajax({
+                          type: "GET",
+                          url: "data/get.php",
+                          data: {index: index}
+                        }).done(function(response) {
+                            slider3.deleteAllItems();
+                            data = $.parseJSON(response);
+                            $.each(data, function(i, value) {
+                                slider3.addItem(value);
+                            });
+                        });
+                    }
+                });
+                var slider3 = $('#slider-3').sahiliItemSlider();
+                
+                slider1.addItem('test1');
+                slider1.addItem('test2');
+                slider1.addItem('test3');
+                slider1.addItem('test4');
+            });
+        </script>
+    </body>
+</html>
