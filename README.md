@@ -49,6 +49,6 @@ jQuery SahiliItemSlider
 ## FUNCTIONS
   `slider1.addItem('<span>item</span>', {'id': '10'});` : add a item to the slider 1, the second param is for the html5 data-attribute (in this example it will create ´data-id="10"´
   
-  `slider1.deleteSingleItems(2);` : remove the item with the index 3
+  `slider1.deleteSingleItems(2);` : remove the item with the index 2
   
   `slider1.delteAllItems();` : remove all items from the slider
