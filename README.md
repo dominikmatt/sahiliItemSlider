@@ -43,6 +43,7 @@ jQuery SahiliItemSlider
   
 ## CALLBACKS
   startSlide: function(index) {} [is called when the slider starts the slide]
+  
   slideEnded: function(index) {} [is called when the slider is on the new index]
   
 ## FUNCTIONS
