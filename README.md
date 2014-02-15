@@ -3,7 +3,7 @@ sahiliItemSlider
 
 jQuery SahiliItemSlider
 
-## How to use:
+## HOW TO USE:
  
 1. Download jQuery-sahiliItemSlider.
 
@@ -38,12 +38,14 @@ jQuery SahiliItemSlider
    `slider1.addItem('item 2')`;
 
 
-## Options:
-  showItems: 1
-  startSlide: function(index) {}
-  slideEnded: function(index) {}
+## CONFIGURATE:
+  showItems: [default: 1]
   
-## Functions
+## CALLBACKS
+  startSlide: function(index) {} [is called when the slider starts the slide]
+  slideEnded: function(index) {} [is called when the slider is on the new index]
+  
+## FUNCTIONS
   `slider1.addItem('test1');` : add a item to the slider 1
   
   `slider1.deleteSingleItems(2);` : remove the item with the index 3
