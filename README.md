@@ -42,12 +42,12 @@ jQuery SahiliItemSlider
   showItems: [default: 1]
   
 ## CALLBACKS
-  startSlide: function(index) {} [is called when the slider starts the slide]
+  startSlide: function(index, element) {} [is called when the slider starts the slide]
   
-  slideEnded: function(index) {} [is called when the slider is on the new index]
+  slideEnded: function(index, element) {} [is called when the slider is on the new index]
   
 ## FUNCTIONS
-  `slider1.addItem('test1');` : add a item to the slider 1
+  `slider1.addItem('<span>item</span>', {'id': '10'});` : add a item to the slider 1, the second param is for the html5 data-attribute (in this example it will create ´data-id="10"´
   
   `slider1.deleteSingleItems(2);` : remove the item with the index 3
   
