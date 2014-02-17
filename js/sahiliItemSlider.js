@@ -1,15 +1,11 @@
 /**
- * SAHILIBOX 
+ * SAHILIITEMSLIDER
  *
  * VERSION 0.1.0
  *
  * CAHNGELOG
  * 
  * VERSION 1.0
- * - ADDED: DEFAULT THEME
- * - ADDED: OVERLAY
- * - ADDED: PAGINATION
- * - ADDED: PLUGIN CORE
  *
  * author Dominik Matt <dma@massiveart.com>
  */
