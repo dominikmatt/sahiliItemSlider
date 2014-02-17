@@ -1,17 +1,23 @@
 /**
- * SAHILIBOX 
+ * SAHILIITEMSLIDER 
  *
- * VERSION 0.1.0
+ *
+ * VERSION 0.2.0
+ *
  *
  * CAHNGELOG
  * 
  * VERSION 1.0
- * - ADDED: DEFAULT THEME
- * - ADDED: OVERLAY
- * - ADDED: PAGINATION
- * - ADDED: PLUGIN CORE
+ * - ADDED: ITEM HANDLER
+ * - ADDED: CALLBACKS
+ *     - addItem
+ *     - deleteSingleItems
+ *     - deleteAllItems
+ *     - getItemLength
+ * - ADDED: CORE
  *
- * author Dominik Matt <dma@massiveart.com>
+ *
+ * author Dominik Matt <mail@matt-dominik.at>
  */
 
 
@@ -32,6 +38,7 @@ $.fn.sahiliItemSlider = function(options){
             items: [],
             activeItem: 0,
             itemLength: 0,
+            lastIndexCallback: 0,
             
             init: function()
             {
@@ -61,6 +68,7 @@ $.fn.sahiliItemSlider = function(options){
                 sis.deleteAllItems();
                 var width = sis.itemLength * options.showItems;
                 $slider.find('.viewport').css('width', width + 'px');
+                sis.lastIndexCallback = null;
             },
             
             /*
@@ -69,13 +77,26 @@ $.fn.sahiliItemSlider = function(options){
             reloadItemSlider: function()
             {
                 sis.clearSlider();
+                setTimeout(function() {
+                    if(sis.activeItem >= sis.helper.getItemLength()) {
+                        if(sis.helper.getItemLength() == 0) {
+                            sis.activeItem = 0;
+                        } else {
+                            sis.activeItem = sis.helper.getItemLength()-1;
+                        }
+                        console.log(sis.activeItem);
+                        sis.slideToIndex(sis.activeItem);
+                    }    
+                }, 100);
+                
                 sis.setItems();
                 sis.setContainerWidth();
+                sis.helper.hideNavOnStart();
             },
             
             setContainerWidth: function() 
             {
-                var width = sis.items.length*100;
+                var width = sis.helper.getItemLength()*100;
                 $slider.find('ul').css('width', width + '%');
             },
             
@@ -122,37 +143,47 @@ $.fn.sahiliItemSlider = function(options){
              */
             slideToIndex: function(index) 
             {
-                if(sis.items.length > index) {
+                if(sis.helper.getItemLength() > index) {
                     var element = $slider.find('li.item-' + index);
-                    options.startSlide(index, element);
+                    
+                    
+                    if(sis.lastIndexCallback != index) {
+                        //fire callback event before slide is start
+                        options.startSlide(index, element);
+                    }
+                    
                     sis.activeItem = index;
                     var marginLeft = -(sis.itemLength*index);
                     $slider.find('ul').stop().animate({
                         'marginLeft': marginLeft + 'px'
                     }, 500, function() {
-                        options.slideEnded(index, element);
+                        if(sis.lastIndexCallback != index) {
+                            //fire event after the slide is done
+                            options.slideEnded(index, element);
+                        }
                     });
+                    sis.lastIndexCallback = index;
                 }
                 sis.checkPagination();
             },
             
             checkPagination: function() 
             {
-            
-                $slider.find('.next').show();
-                $slider.find('.prev').show();
+                
+                sis.helper.show($slider.find('.next'));
+                sis.helper.show($slider.find('.prev'));
 
-                if(sis.items.length <= options.showItems) {
-                    $slider.find('.next').hide();
-                    $slider.find('.prev').hide();
+                if(sis.helper.getItemLength() <= options.showItems) {
+                    sis.helper.hide($slider.find('.next'));
+                    sis.helper.hide($slider.find('.prev'));
                 }
                 
-                if(sis.items.length <= (sis.activeItem+options.showItems)) {
-                    $slider.find('.next').hide();    
+                if(sis.helper.getItemLength() <= (sis.activeItem+options.showItems)) {
+                   sis.helper.hide($slider.find('.next'));  
                 }
 
                 if(sis.activeItem <= 0) {
-                    $slider.find('.prev').hide();
+                    sis.helper.hide($slider.find('.prev'));
                 }
             },
             
@@ -166,7 +197,7 @@ $.fn.sahiliItemSlider = function(options){
             
             nextItem: function() 
             {
-                if(sis.items.length > (sis.activeItem+options.showItems)) { 
+                if(sis.helper.getItemLength() > (sis.activeItem+options.showItems)) { 
                     var index = sis.activeItem+1;
                     sis.slideToIndex(index);
                 } 
@@ -177,6 +208,54 @@ $.fn.sahiliItemSlider = function(options){
                 sis.reloadItemSlider();
             }
         };
+        
+        /*
+        * HELPER 
+        */
+        sis.helper = {
+            hide: function($element)
+            {
+                $element.stop().animate({
+                    opacity: 0
+                }, 400);
+            },
+            
+            show: function($element)
+            {
+                $element.stop().animate({
+                    opacity: 1
+                }, 400);
+            },
+            
+            hideNavOnStart: function() 
+            {
+                //$slider.find('.next').hide();
+                if(sis.activeItem == 0) {
+                    $slider.stop().find('.prev').css({
+                        opacity: 0
+                    });    
+                } else {
+                    $slider.stop().find('.prev').css({
+                        opacity: 1
+                    });  
+                }
+                
+                if(sis.activeItem == sis.helper.getItemLength()) {
+                    $slider.stop().find('.next').css({
+                        opacity: 0
+                    });  
+                } else {
+                    $slider.stop().find('.next').css({
+                        opacity: 1
+                    });  
+                }
+            },
+            
+            getItemLength: function() 
+            {
+                return parseInt(sis.items.length);
+            }
+        }
         
         sis.init();
     
@@ -198,6 +277,10 @@ $.fn.sahiliItemSlider = function(options){
             
             deleteAllItems: function() {
                 sis.deleteAllItems();
+            },
+            
+            getItemLength: function() {
+                return sis.helper.getItemLength();
             }
         };
         
