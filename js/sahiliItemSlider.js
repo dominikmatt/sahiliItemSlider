@@ -1,11 +1,15 @@
 /**
- * SAHILIITEMSLIDER
+ * SAHILIBOX 
  *
  * VERSION 0.1.0
  *
  * CAHNGELOG
  * 
  * VERSION 1.0
+ * - ADDED: DEFAULT THEME
+ * - ADDED: OVERLAY
+ * - ADDED: PAGINATION
+ * - ADDED: PLUGIN CORE
  *
  * author Dominik Matt <dma@massiveart.com>
  */
@@ -18,8 +22,8 @@ $.fn.sahiliItemSlider = function(options){
     
         options = $.extend({
             showItems: 1,
-            startSlide: function(index) {},
-            slideEnded: function(index) {}
+            startSlide: function(index, element) {},
+            slideEnded: function(index, element) {}
         }, options);
         
         
@@ -51,7 +55,7 @@ $.fn.sahiliItemSlider = function(options){
             
             setViewportWidth: function() 
             {
-                sis.items.push('');
+                sis.items.push({'value': ''});
                 sis.reloadItemSlider();
                 sis.itemLength = $slider.find('ul li').outerWidth(true);
                 sis.deleteAllItems();
@@ -88,12 +92,27 @@ $.fn.sahiliItemSlider = function(options){
              */
             setItems: function()
             {
-                $.each(sis.items, function(i, value) {
+                $.each(sis.items, function(i, item) {
                     var classAddon = '';
                     if(i == sis.activeItem) {
                         classAddon = ' active';
                     }
-                    $slider.find('ul').append('<li class="slide' + classAddon + '" data-slide-index="' + i + '">' + value + '</li>');
+                    var $li = $('<li/>')
+                    $li.html(item['value']);
+                    $li.addClass('slide');
+                    $li.addClass('item-' + i);
+                    $li.addClass(classAddon);
+                    $li.data('slide-index', i);
+
+                    if(item['data'] != undefined) {
+                        $.each(item['data'], function(key, value) {
+                             $li.data(key, value);
+                        });
+                    }
+                    
+                    $li.appendTo($slider.find('ul'));
+
+                    
                 });
                 sis.slideToIndex(sis.activeItem);
             },
@@ -104,13 +123,14 @@ $.fn.sahiliItemSlider = function(options){
             slideToIndex: function(index) 
             {
                 if(sis.items.length > index) {
-                    options.startSlide(index);
+                    var element = $slider.find('li.item-' + index);
+                    options.startSlide(index, element);
                     sis.activeItem = index;
                     var marginLeft = -(sis.itemLength*index);
                     $slider.find('ul').stop().animate({
                         'marginLeft': marginLeft + 'px'
                     }, 500, function() {
-                        options.slideEnded(index);
+                        options.slideEnded(index, element);
                     });
                 }
                 sis.checkPagination();
@@ -121,7 +141,7 @@ $.fn.sahiliItemSlider = function(options){
             
                 $slider.find('.next').show();
                 $slider.find('.prev').show();
-                console.log(sis.items);
+
                 if(sis.items.length <= options.showItems) {
                     $slider.find('.next').hide();
                     $slider.find('.prev').hide();
@@ -164,7 +184,10 @@ $.fn.sahiliItemSlider = function(options){
         * DEFINE USER ACTIONS
         */
         var actions = {
-            addItem: function(item) {
+            addItem: function(value, data) {
+                var item = [];
+                item['value'] = value;
+                item['data'] = data;
                 sis.items.push(item);
                 sis.reloadItemSlider();
             },
