@@ -46,7 +46,7 @@
                           url: "data/get.php",
                           data: {index: index}
                         }).done(function(response) {
-                            slider2.deleteAllItems();
+                            slider2.deleteAllItems(true);
                             data = $.parseJSON(response);
                             $.each(data, function(i, value) {
                                 slider2.addItem(value);
@@ -63,7 +63,8 @@
                           url: "data/get.php",
                           data: {index: index}
                         }).done(function(response) {
-                            slider3.deleteAllItems();
+                            slider3.deleteAllItems(true);
+                            console.log('called');
                             data = $.parseJSON(response);
                             $.each(data, function(i, value) {
                                 slider3.addItem(value);

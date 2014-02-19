@@ -275,7 +275,12 @@ $.fn.sahiliItemSlider = function(options){
                 
             },
             
-            deleteAllItems: function() {
+            deleteAllItems: function(extended) {
+                extended = typeof extended !== 'undefined' ? extended : false;
+                if(extended == true) {
+                    sis.lastIndexCallback = null;
+                    sis.activeItem = 0;
+                }
                 sis.deleteAllItems();
             },
             
